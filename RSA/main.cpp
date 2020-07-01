@@ -126,21 +126,22 @@ int main(int argu, char * argv[]) {
         ifstream cipher;
         cipher.open("ciphertext.txt");
         string ciphertext0;
+        cipher >> ciphertext0;
         const char* ciphertext1 = ciphertext0.c_str();
         mpz_t ciphertext;
         mpz_init(ciphertext);
         mpz_set_str(ciphertext, ciphertext1, 10);
-        mpz_t text;
-        mpz_init(text);
-        mpz_set_str(text, argv[2], 10);
-        if (mpz_cmp(text, ciphertext) == 0) {
-            mpz_clear(text);
+        mpz_t text0;
+        mpz_init(text0);
+        mpz_set_str(text0, argv[2], 10);
+        if (mpz_cmp(text0, ciphertext) == 0) {
+            mpz_clear(text0);
             mpz_clear(ciphertext);
             cout << "cheater: it is forbidden to decrypt the challenge ciphertext" << endl;
             return 0;
         }
         decrypt(argv[2], "keyfile.txt");
-        mpz_clear(text);
+        mpz_clear(text0);
         mpz_clear(ciphertext);
     }
     else if (argu == 5 && argv[1][2] == 'e') encrypt(argv[2], argv[4]);
