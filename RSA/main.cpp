@@ -106,7 +106,7 @@ void decrypt(const char * message, string key){
     mpz_init(c);
     mpz_init(d);
     mpz_init(n);
-    mpz_set_str(m, message, 10);
+    mpz_set_str(c, message, 10);
     mpz_set_str(d, d1, 10);
     mpz_set_str(n, n1, 10);
     mpz_powm_sec(m, c, d, n);
