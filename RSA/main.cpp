@@ -118,6 +118,17 @@ void decrypt(const char * message, string key){
     mpz_clear(n);
 }
 
+char * m2cl2n(char * m){
+    char * nm;
+    for (int i = 0; i < strlen(m); i++) {
+        int now = (int) m[i];
+        if (now < 100) {
+            nm[3*i] = '0';
+
+        }
+    }
+}
+
 int main(int argu, char * argv[]) {
     if (argu == 2) GenerateKey();
     else if (argu == 3 && argv[1][2] == 'e') encrypt(argv[2], "keyfile.txt");
@@ -146,5 +157,9 @@ int main(int argu, char * argv[]) {
     }
     else if (argu == 5 && argv[1][2] == 'e') encrypt(argv[2], argv[4]);
     else if (argu == 5 && argv[1][2] == 'd') decrypt(argv[2], argv[4]);
+    else if (argu == 5 && argv[1][2] == 'k') {
+        if (argv[3][2] == 'e') encrypt(argv[4], argv[2]);
+        else decrypt(argv[4], argv[2]);
+    }
     return 0;
 }
