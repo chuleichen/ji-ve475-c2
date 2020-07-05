@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <gmp.h>
 #include <cmath>
+#include <cstring>
 
 using namespace std;
 
@@ -78,7 +79,14 @@ void encrypt(const char * message, string key){
     mpz_init(c);
     mpz_init(e);
     mpz_init(n);
-    mpz_set_str(m, message, 10);
+    //mpz_set_str(m, message, 10);
+    int msize = strlen(message);
+    for (int i = 0; i < msize; i++) {
+        unsigned int temp = (unsigned int) message[i];
+        temp = temp - 30;
+        mpz_mul_ui(m, m, 100);
+        mpz_add_ui(m, m, temp);
+    }
     mpz_set_str(e, e1, 10);
     mpz_set_str(n, n1, 10);
     mpz_powm(c, m ,e, n);
@@ -110,23 +118,24 @@ void decrypt(const char * message, string key){
     mpz_set_str(d, d1, 10);
     mpz_set_str(n, n1, 10);
     mpz_powm_sec(m, c, d, n);
-    if (mpz_cmp_ui(m, 0) == 0) cout << "really zero?" << endl;
-    gmp_printf("%Zd \n", m);
+    int msize = mpz_sizeinbase(m, 10) / 2;
+    char mess[msize] = {};
+    for (int i = 0; i < msize; i++) {
+        mpz_t temp;
+        mpz_init(temp);
+        mpz_fdiv_qr_ui(m, temp, m, 100);
+        unsigned int asc = mpz_get_ui(temp);
+        mess[i] = asc + 30;
+        mpz_clear(temp);
+    }
+    for (int i = msize - 1; i >= 0; i--) {
+        cout << mess[i];
+    }
+    cout << endl;
     mpz_clear(m);
     mpz_clear(c);
     mpz_clear(d);
     mpz_clear(n);
-}
-
-char * m2cl2n(char * m){
-    char * nm;
-    for (int i = 0; i < strlen(m); i++) {
-        int now = (int) m[i];
-        if (now < 100) {
-            nm[3*i] = '0';
-
-        }
-    }
 }
 
 int main(int argu, char * argv[]) {
