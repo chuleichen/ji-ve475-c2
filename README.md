@@ -12,3 +12,9 @@ Use `--encrypt "..."` to encrypt a message, output will be the corresponding cip
 
 
 Use `--decrypt "..."` to decript a cipher, output will be the correspinding plaintext. But it is forbidden to decrypt the ciphertext given by the **default key**.
+
+
+## Makefile
+
+
+The makefile is also in the files. But you need to change the address to be the address of gmp library in your computer to run it.
